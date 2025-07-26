@@ -80,7 +80,11 @@ const route = useRoute();
 const blogStore = useBlogStore();
 const userStore = useUserStore();
 const appStore = useAppStore();
-const id: string = route.params.id as string;
+const idRaw = route.params.id;
+if (typeof idRaw !== 'string') {
+  throw new Error('Blog ID is required');
+}
+const id = idRaw;
 
 onMounted(async () => {
     await blogStore.fetchBlog(id);

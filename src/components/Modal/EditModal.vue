@@ -29,16 +29,17 @@
 
                 <div class="flex justify-end gap-4 mt-6">
                     <button
-                        @click="blogStore.updateBlog(appStore.modalBlogId, userStore.userId), appStore.setModalOpened(false)"
-                        class="border border-[#FFD11A] text-[#FFD11A] px-6 py-2 rounded-md font-medium hover:bg-[#FFD11A] hover:text-black transition">
+                        @click="appStore.modalBlogId && userStore.userId ? (blogStore.updateBlog(appStore.modalBlogId, userStore.userId), appStore.setModalOpened(false)) : null"
+                        :disabled="!appStore.modalBlogId || !userStore.userId"
+                        class="border border-[#FFD11A] text-[#FFD11A] px-6 py-2 rounded-md font-medium hover:bg-[#FFD11A] hover:text-black transition disabled:opacity-50 disabled:cursor-not-allowed">
                         Save Changes
                     </button>
-
-                    <button @click="appStore.setModalOpened(false)"
-                        class="bg-[#FFD11A] text-[#141414] px-6 py-2 rounded-md font-medium hover:opacity-90 transition">
-                        Cancel
-                    </button>
                 </div>
+
+                <button @click="appStore.setModalOpened(false)"
+                    class="bg-[#FFD11A] text-[#141414] px-6 py-2 rounded-md font-medium hover:opacity-90 transition">
+                    Cancel
+                </button>
             </div>
             <div class="w-full h-[60vh] flex justify-center items-center" v-else>
                 <i class="pi pi-spin pi-spinner text-[#FFD11A]" style="font-size: 2rem"></i>
@@ -63,7 +64,7 @@ onMounted(async () => {
 const handleImageUpload = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
-    blogStore.blog_image_file = file
+    blogStore.blog_image_file = file;
 };
 </script>
 
